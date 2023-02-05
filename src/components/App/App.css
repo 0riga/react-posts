@@ -1,0 +1,12 @@
+.main__container {
+  width: 100%;
+  border-radius: 3px;
+  padding: 0 10px;
+}
+
+.main__container__top {
+  width: 100%;
+  min-height: 100px;
+  background-color: rgb(45 50 90);
+  margin: 20px 0;
+}

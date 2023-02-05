@@ -1,13 +1,34 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+@import url('https://fonts.cdnfonts.com/css/proxima-nova-2');
+
+@font-face {
+  font-family: 'Franklin';
+  src: url(../src/assets/fonts/franklin-gothic-book.ttf);
+  font-weight: bold;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+::-webkit-scrollbar {
+  display: none;
+}
+
+* {
+  box-sizing: inherit;
+  padding: 0;
+  margin: 0;
+  --maincolor: rgb(37 41 74);
+  --accentcolor: rgb(32 36 66);
+  --accenttextcolor: #008080;
+  --textcolor: rgb(113 128 150);
+  --textcolor2: #b4b9c2;
+  --backcolor: rgb(45 50 90);
+}
+
+html {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Franklin', sans-serif;
+  /* letter-spacing: 1px; */
+  background-color: var(--maincolor);
 }

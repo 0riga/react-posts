@@ -1,0 +1,36 @@
+.header {
+	height: 100px;
+	width: 100%;
+	background-color: var(--accentcolor);
+
+
+
+}
+
+.header__content {
+	max-width: 1280px;
+	margin: 0 auto;
+	padding: 0 10px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	overflow: hidden;
+}
+
+/* .logo{
+	width: 100%;
+	height: 100px;
+} */
+.logo img {
+	height: 100px;
+	/* height: fit-content; */
+	object-fit: contain;
+}
+
+.header__content__buttons {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	gap: 15px;
+}
