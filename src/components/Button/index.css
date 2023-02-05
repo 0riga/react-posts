@@ -1,0 +1,18 @@
+.btn{
+	height: fit-content;
+
+}
+.btn button{
+	padding: 10px 25px;
+	background-color: var(--accenttextcolor);
+	border: none;
+	border-radius: 5px;
+	font-size: 16px;
+	font-weight: 600;
+	color: #ccc;
+	font-family: "Franklin";
+	cursor: pointer;
+}
+.btn button:hover{
+	box-shadow: 0 0 10px var(--accenttextcolor);
+}
