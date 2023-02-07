@@ -1,12 +1,10 @@
 import "./index.css"
 
 
-export const Button = ({children,type,fn}) => {
+export const Button = ({ children, type, fn }) => {
 	return (
-		<>
-			<div className='btn'>
-				<button onClick={fn} type={type}>{children}</button>
-			</div>
-		</>
+		<div className='btn'>
+			<button onClick={fn} type={type}>{children}</button>
+		</div>
 	)
 }

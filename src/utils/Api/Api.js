@@ -18,10 +18,7 @@ class Api {
 			headers: this._headers,
 			method: 'POST',
 			body: JSON.stringify(data),
-		}).then(onResponse)
-			.then(res => {
-				localStorage.setItem('token', res.token);
-			});
+		}).then(onResponse);
 	}
 	getAllPosts() {
 		return fetch(`${this._baseUrl}/v2/group-9/posts`, {

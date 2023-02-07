@@ -8,11 +8,13 @@
 	overflow: hidden;
 	transition: .25s;
 	position: relative;
+}
 
+.post a {
+	text-decoration: none;
 }
 
 .post__container {
-	text-decoration: none;
 	cursor: pointer;
 	padding: 15px;
 }

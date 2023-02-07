@@ -2,7 +2,7 @@ import s from './index.module.css';
 import React from "react";
 import Post from "../Post/post";
 
-export const PostsList = ({ posts, setPosts, setActiveModal }) => {
+export const PostsList = ({ posts }) => {
 
 	return (
 		<>
@@ -10,16 +10,11 @@ export const PostsList = ({ posts, setPosts, setActiveModal }) => {
 			<div className={s.postList}>
 				{posts.map((item) => (
 					<Post
-						setPosts={setPosts}
 						key={item._id}
 						{...item}
-						setActiveModal={setActiveModal}
 					/>
-
 				))}
 			</div>
-
 		</>
 	)
-
 }

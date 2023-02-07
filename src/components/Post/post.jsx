@@ -1,11 +1,10 @@
+import React from "react";
 import { useContext, useState } from "react";
 import { FaRegCommentAlt, FaRegHeart, FaCommentAlt, FaHeart } from "react-icons/fa";
 import { TiDeleteOutline, TiEdit } from "react-icons/ti";
 import { Link } from 'react-router-dom';
+import { PostContext } from "../../context/postContext";
 import { UserContext } from "../../context/userContext";
-import { api } from "../../utils/Api/Api";
-import { Confirmation } from "../Confirmation/confirmation";
-import { Modal } from "../Modal/modal";
 import './index.css';
 
 const Post = ({
@@ -14,73 +13,51 @@ const Post = ({
 	_id,
 	author,
 	comments,
-	likes,
-	setPosts
+	likes
 }) => {
-	const [activeModalConfirm, setActiveModalConfirm] = useState(false);
+	const { isLiked, modelOpen, setActualIdPost, handleClickLike, handleClickUnlike } = useContext(PostContext);
 	const { currentUser } = useContext(UserContext);
-	const isLiked = likes.includes(currentUser?._id);
-	const [liked, setLiked] = useState(isLiked);
 	const [likeCounter, setLikeCounter] = useState(likes.length);
+	const [liked, setLiked] = useState(isLiked(likes));
 
-	let commentCounter = comments.length
+	const commentCounter = comments.length
 
-	const handleClickUnlike = () => {
-		api.removeLike(_id)
-			.then(() => setLiked(!liked))
-			.then(() => setLikeCounter(likeCounter - 1))
-	};
-	const handleClickLike = () => {
-		api.addLike(_id)
-			.then(() => setLiked(!liked))
-			.then(() => setLikeCounter(likeCounter + 1))
-	};
 	return (
-		<>
-			<div className='post'>
-				<Link style={{ textDecoration: "none" }} to={`/${_id}`}>
-					<div className='post__container'>
-						<div className='post__image'>
-							<img src={image} alt="" />
-						</div>
-						<div className='post__title'>
-							{title}
-						</div>
+		<div className='post'>
+			<Link to={`/${_id}`}>
+				<div className='post__container'>
+					<div className='post__image'>
+						<img src={image} alt="" />
 					</div>
-				</Link>
-				<div className='post__icons'>
-					<div className="post__icons__like">
-						{liked
-							? <div className="likes__counter">
-								<FaHeart onClick={handleClickUnlike} />&nbsp;{likeCounter !== 0 && likeCounter}
-							</div>
-							: <div className="likes__counter">
-								<FaRegHeart onClick={handleClickLike} />&nbsp;{likeCounter !== 0 && likeCounter}
-							</div>}
-					</div>
-					<div className="post__icons__comments">
-						{commentCounter ? <div className="comments__counter">
-							{commentCounter}&nbsp;<FaCommentAlt />
-						</div> :
-							<FaRegCommentAlt />
-						}
+					<div className='post__title'>
+						{title}
 					</div>
 				</div>
-				{currentUser?._id === author._id ?
-					<div className='post__icons__change'>
-						<TiEdit />
-						<TiDeleteOutline className="del__icon" onClick={() => { setActiveModalConfirm(true) }} />
+			</Link>
+			<div className='post__icons'>
+				<div className="post__icons__like">
+					<div className="likes__counter">
+						{liked
+							? <FaHeart onClick={() => { { setLikeCounter(likeCounter - 1) } { handleClickUnlike(_id, setLiked(!liked)) } }} />
+							: <FaRegHeart onClick={() => { { setLikeCounter(likeCounter + 1) } { handleClickLike(_id, setLiked(!liked)) } }} />
+						}
+						&nbsp;{likeCounter !== 0 && likeCounter}
 					</div>
-					: null}
+				</div>
+				<div className="post__icons__comments">
+					{commentCounter
+						? <div className="comments__counter">{comments.length}&nbsp;<FaCommentAlt />
+						</div>
+						: <FaRegCommentAlt />
+					}
+				</div>
 			</div>
-			<Modal setActiveModal={setActiveModalConfirm} activeModal={activeModalConfirm}>
-				<Confirmation
-					_id={_id}
-					setPosts={setPosts}
-					setActiveModalConfirm={setActiveModalConfirm}
-				/>
-			</Modal>
-		</>
+			{currentUser?._id === author._id &&
+				<div className='post__icons__change'>
+					<TiEdit onClick={() => { console.log(isLiked(likes)) }} />
+					<TiDeleteOutline className="del__icon" onClick={() => { { modelOpen() } { setActualIdPost(_id) } }} />
+				</div>}
+		</div>
 	)
 }
 export default Post;
