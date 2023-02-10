@@ -71,11 +71,5 @@ class Api {
       method: isLiked ? 'DELETE' : 'PUT',
     }).then(onResponse);
   }
-  // removeLike(postId) {
-  //   return fetch(`${this._baseUrl}/v2/group-9/posts/likes/${postId}`, {
-  //     headers: this._headers,
-  //     method: "DELETE",
-  //   }).then(onResponse);
-  // }
 }
 export const api = new Api(config);
