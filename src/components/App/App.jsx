@@ -7,65 +7,43 @@ import { api } from '../../utils/Api/Api';
 import { PostsList } from '../PostsList/postsList';
 import { UserContext } from '../../context/userContext';
 import { PostContext } from '../../context/postContext';
-import { Modal } from '../Modal/modal';
 import { Confirmation } from '../Confirmation/confirmation';
-// localStorage.getItem('token')
-
 
 function App() {
 
   const [posts, setPosts] = useState([]);
   const [currentUser, setCurrentUser] = useState();
-  const [activeModalConfirm, setActiveModalConfirm] = useState(false);
+  const [activeModal, setActiveModal] = useState(false);
   const [actualIdPost, setActualIdPost] = useState();
 
-  const handleReSetPosts = (id) => {
-    posts.forEach((el, i) => { if (el._id === id) { posts.splice(i, 1) } }
-    )
-  }
+  const isLiked = (likes, userId) => likes.some((id) => id === userId);
 
-  const modalClose = () => {
-    setActiveModalConfirm(false)
+  const handlePostLike = (likes, postId) => {
+    const Liked = isLiked(likes, currentUser?._id)
+    api.changeLike(postId, Liked).then((post) => {
+      setPosts(posts.map((el) => el._id === post._id ? post : el))
+    })
   }
-
-  const modelOpen = () => {
-    setActiveModalConfirm(true)
-  }
+  const modalChange = () => setActiveModal(!activeModal);
 
   const handleDeletePost = () => {
     api.deletePost(actualIdPost)
-      .then(() => { handleReSetPosts(actualIdPost) })
-      .finally(() => modalClose())
+      .then(() => setPosts(posts.filter(e => e._id !== actualIdPost)))
+      .finally(() => modalChange())
   }
 
-  const handleClickUnlike = (id, setLike) => {
-    api.removeLike(id)
-      .then(() => setLike)
-
-  };
-  const handleClickLike = (id, setLike) => {
-    api.addLike(id)
-      .then(() => setLike)
-  };
-
-  const isLiked = (likes) => {
-    return likes.includes(currentUser?._id)
-  }
   useEffect(() => {
     api.getAllPosts().then((data) => setPosts(data))
     api.getAuthUser().then((userData) => setCurrentUser(userData))
   }, [])
 
   const postProvider = {
-    isLiked: isLiked,
-    handleDeletePost: handleDeletePost,
-    modalClose: modalClose,
-    modelOpen: modelOpen,
-    setActualIdPost: setActualIdPost,
-    handleClickUnlike: handleClickUnlike,
-    handleClickLike: handleClickLike
+    handleDeletePost,
+    modalChange,
+    setActualIdPost,
+    handlePostLike,
+    isLiked
   };
-
 
   return (
     <UserContext.Provider value={{ currentUser }}>
@@ -82,10 +60,13 @@ function App() {
                     />
                   } >
                 </Route>
-              </Routes>
-              <Modal setActiveModal={setActiveModalConfirm} activeModal={activeModalConfirm}>
-                <Confirmation handleDeletePost={handleDeletePost} modalClose={modalClose} />
-              </Modal>
+              </Routes>              
+              <Confirmation
+                handleDeletePost={handleDeletePost}
+                modalChange={modalChange}
+                setActiveModal={setActiveModal}
+                activeModal={activeModal}
+              />
             </div>
           </div>
         </main>

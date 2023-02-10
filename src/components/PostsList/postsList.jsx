@@ -8,7 +8,7 @@ export const PostsList = ({ posts }) => {
 		<>
 			<div className={s.main__container__top}></div>
 			<div className={s.postList}>
-				{posts.map((item) => (
+				{posts?.map((item) => (
 					<Post
 						key={item._id}
 						{...item}
