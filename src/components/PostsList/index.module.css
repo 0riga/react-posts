@@ -1,0 +1,45 @@
+main {
+	max-width: 1280px;
+	margin: 0 auto;
+}
+
+.main__container__top {
+	width: 100%;
+	min-height: 100px;
+	background-color: rgb(45 50 90);
+	margin: 20px 0;
+	border-radius: 5px;
+	box-shadow: 0 2px 4px 0 rgb(0 0 0 / 40%);
+}
+
+.postList {
+	width: 100%;
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	grid-auto-rows: max-content;
+	gap: 16px;
+}
+
+.card__image {
+	width: 100%;
+	object-fit: contain;
+	margin-bottom: 16px;
+}
+
+@media (max-width: 1280px) {
+	.postList {
+		grid-template-columns: repeat(3, 1fr);
+	}
+}
+
+@media (max-width: 950px) {
+	.postList {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+@media (max-width: 670px) {
+	.postList {
+		grid-template-columns: repeat(1, 1fr);
+	}
+}
