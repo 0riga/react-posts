@@ -46,6 +46,12 @@ class Api {
       body: JSON.stringify({ text }),
     }).then(onResponse);
   }
+  deleteComment(postId, commentId){
+    return fetch(`${this._baseUrl}/v2/group-9/posts/comments/${postId}/${commentId}`,{
+      headers: this._headers,
+      method: "DELETE",
+    }).then(onResponse);
+  }
   getAuthUser() {
     return fetch(`${this._baseUrl}/v2/group-9/users/me`, {
       headers: this._headers,

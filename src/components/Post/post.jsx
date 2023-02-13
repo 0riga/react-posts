@@ -20,7 +20,7 @@ const Post = ({ image, title, _id, author, comments, likes }) => {
     isLiked
   } = useContext(PostContext);
   const { currentUser } = useContext(UserContext);
-  const commentCounter = comments.length;
+  let commentCounter = comments?.length;
 
   return (
     <div className="post">
@@ -44,7 +44,7 @@ const Post = ({ image, title, _id, author, comments, likes }) => {
                 onClick={() => handlePostLike(likes, _id)}
               />
             )}
-            &nbsp;{!!likes.length && likes.length}
+            &nbsp;{!!likes?.length && likes?.length}
           </div>
         </div>
         <div className="post__icons__comments">
@@ -58,7 +58,7 @@ const Post = ({ image, title, _id, author, comments, likes }) => {
           )}
         </div>
       </div>
-      {currentUser?._id === author._id && (
+      {currentUser?._id === author?._id && (
         <div className="post__icons__change">
           <TiEdit
             onClick={() => {}}
