@@ -19,16 +19,13 @@ function App() {
   const [activeModal, setActiveModal] = useState(false);
   const [actualIdPost, setActualIdPost] = useState();
   const [comments, setComments] = useState([]);
-  const [post, setPost] = useState([]);
-
   const isLiked = (likes, userId) => likes?.some((id) => id === userId);
 
   const handlePostLike = (likes, postId) => {
-    const Liked = isLiked(likes, currentUser?._id)
-    api.changeLike(postId, Liked)
+    const liked = isLiked(likes, currentUser?._id)
+    api.changeLike(postId, liked)
       .then((post) => {
         setPosts(posts.map((el) => el._id === post._id ? post : el))
-        setPost(post)
       })
       .catch(err => console.error(err))
   }
@@ -41,12 +38,6 @@ function App() {
       .catch(err => console.error(err))
       .finally(() => modalChange())
   }
-
-  const getDetailedPost = (postid) => {
-    api.getPostById(postid)
-      .then((data) => setPost(data))
-      .catch(err => console.error(err))
-  }
   const getComments = (postid) => {
     api.getCommentsByPostId(postid)
       .then((data) => setComments(data))
@@ -55,16 +46,16 @@ function App() {
   const handleAddComment = (postid, text) => {
     api.addComment(postid, text)
       .then((post) => {
-        setPost(post)
         setPosts(posts.map((el) => el._id === post._id ? post : el))
       })
+      .then(() => getComments(postid))
       .catch(err => console.error(err))
   };
   const handeleDeleteComment = (postId, commentId) => {
     api.deleteComment(postId, commentId)
       .then((post) => {
-        setPost(post);
-        setPosts(posts.map((el) => el._id === post._id ? post : el))
+
+        setPosts(posts.map((el) => el._id === post._id ? post : el));
       })
       .then(() => setComments(comments.filter(e => e._id !== commentId)))
       .catch(err => console.error(err))
@@ -80,13 +71,22 @@ function App() {
     modalChange,
     setActualIdPost,
     handlePostLike,
-    isLiked
+    isLiked,
+    posts
   };
+
+  const detailedPostProvider = {
+    comments,
+    setComments,
+    getComments,
+    handleAddComment,
+    handeleDeleteComment
+  }
 
   return (
     <UserContext.Provider value={{ currentUser }}>
       <PostContext.Provider value={postProvider}>
-        <DetailedContext.Provider value={{ comments, setComments, getComments, handleAddComment, getDetailedPost, post, handeleDeleteComment }}>
+        <DetailedContext.Provider value={detailedPostProvider}>
           <Header />
           <main>
             <div className='main__container'>
@@ -99,7 +99,7 @@ function App() {
                       />
                     } >
                   </Route>
-                  <Route path='/:postid' element={<DetailedPost />} />
+                  <Route path='/posts/:postid' element={<DetailedPost />} />
                   <Route path='*' element={<NotFound />} />
                 </Routes>
                 <Confirmation

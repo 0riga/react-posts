@@ -4,7 +4,6 @@ import { useParams } from 'react-router-dom';
 import ReactTextareaAutosize from 'react-textarea-autosize';
 import { DetailedContext } from '../../context/detailedContext';
 import { Button } from '../Button/Button';
-import { Hr } from '../Hr/Hr';
 import { TiDeleteOutline } from "react-icons/ti";
 import { UserContext } from '../../context/userContext';
 import "./index.css"
@@ -17,32 +16,23 @@ export const Comments = () => {
 		comments,
 		getComments,
 		handleAddComment,
-		post,
 		handeleDeleteComment
 	} = useContext(DetailedContext)
 	const { currentUser } = useContext(UserContext);
+
+	const words_arr = ["комментарий", "комментария", "комментариев"]
+	const normalize_count_form = (number, words_arr) => {
+		number = Math.abs(number);
+		if (Number.isInteger(number)) {
+			const options = [2, 0, 1, 1, 1, 2];
+			return `${number} ${words_arr[(number % 100 > 4 && number % 100 < 20) ? 2 : options[(number % 10 < 5) ? number % 10 : 5]]}`;
+		}
+		return words_arr[1];
+	}
+
 	useEffect(() => {
 		getComments(postid)
-	}, [post])
-
-	const commentCounter = () => {
-		let n = comments.length
-		n %= 100;
-		if (n >= 5 && n <= 20) {
-			return `${comments.length} коментариев`;
-		}
-		n %= 10;
-		if (n === 1) {
-			return `${comments.length} коментарий`;
-		}
-		if (n >= 2 && n <= 4) {
-			return `${comments.length} коментария`;
-		}
-		if (n === 0) {
-			return
-		}
-		return `${comments.length} коментариев`;
-	}
+	}, [postid])
 
 	const handleChange = (e) => {
 		setText(e.target.value);
@@ -60,12 +50,12 @@ export const Comments = () => {
 				/>
 				<Button fn={() => { handleAddComment(postid, text); setText("") }}>Отправить</Button>
 			</form>
-			<div className='comment__counter'>
-				<span>{commentCounter()}</span>
-				{!!comments.length &&
-					<Hr />
-				}
-			</div>
+			{!!comments.length &&
+				<div className='comment__counter'>
+					<span>{normalize_count_form(comments.length, words_arr)}</span>
+					<hr />
+				</div>
+			}
 			<div className='comments__wrapper__list'>
 				{comments.map((item) => (
 					<div className='comments__wrapper__list__item' key={item._id}>

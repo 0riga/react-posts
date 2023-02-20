@@ -39,6 +39,9 @@
 	color: var(--textcolor);
 	padding-left: 15px;
 }
+.detailedPost__like svg {
+	cursor: pointer;
+}
 
 .detailedPost__user {
 	display: grid;

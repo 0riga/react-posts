@@ -20,11 +20,10 @@ const Post = ({ image, title, _id, author, comments, likes }) => {
     isLiked
   } = useContext(PostContext);
   const { currentUser } = useContext(UserContext);
-  let commentCounter = comments?.length;
 
   return (
     <div className="post">
-      <Link to={`/${_id}`}>
+      <Link to={`/posts/${_id}`}>
         <div className="post__container">
           <div className="post__image">
             <img src={image} alt="" />
@@ -48,9 +47,9 @@ const Post = ({ image, title, _id, author, comments, likes }) => {
           </div>
         </div>
         <div className="post__icons__comments">
-          {commentCounter ? (
+          {comments?.length ? (
             <div className="comments__counter">
-              {comments.length}&nbsp;
+              {comments?.length}&nbsp;
               <FaCommentAlt />
             </div>
           ) : (
