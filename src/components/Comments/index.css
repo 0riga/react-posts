@@ -31,10 +31,9 @@ textarea:focus {
 }
 
 .comment__counter {
-  font-size: 14px;
-  font-weight: 700;
+  font-size: 16px;
+  font-weight: 400;
   color: var(--textcolor2);
-  text-transform: uppercase;
   margin: 20px 10px;
 }
 .comments__wrapper__list__item {
@@ -65,7 +64,7 @@ textarea:focus {
 .comment__author__name {
   color: var(--accenttextcolor);
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 500;
   padding: 0 10px;
 }
 
@@ -84,7 +83,7 @@ textarea:focus {
   right: 15px;
   top: 15px;
   font-size: 24px;
-  color: rgba(255, 50, 50, 0.829);
+  color: var(--errorcolor);
   cursor: pointer;
 }
 .comments__wrapper__list__item:hover .comment__delete-icon {

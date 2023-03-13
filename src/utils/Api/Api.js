@@ -1,81 +1,102 @@
 const onResponse = (res) => {
   return res.ok ? res.json() : Promise.reject(`Ошибка : ${res.status}`);
 };
-const config = {
-  baseUrl: "https://api.react-learning.ru",
-  headers: {
-    "content-type": "application/json",
-    authorization:
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2M1OTAzZjU5Yjk4YjAzOGY3N2E2NWIiLCJncm91cCI6Imdyb3VwLTkiLCJpYXQiOjE2NzQ4NTExMjAsImV4cCI6MTcwNjM4NzEyMH0.XDxJnjUUmXR1iLuhwiHFYMye6tAFnml5-Y9jif-RnJk",
-  },
-};
+
 class Api {
-  constructor({ baseUrl, headers }) {
+  constructor({ url, headers }) {
     this._headers = headers;
-    this._baseUrl = baseUrl;
+    this._url = url;
   }
-  authorization(data) {
-    return fetch(`${this._baseUrl}/signin`, {
-      headers: this._headers,
-      method: "POST",
-      body: JSON.stringify(data),
-    }).then(onResponse);
-  }
+
   getAllPosts() {
-    return fetch(`${this._baseUrl}/v2/group-9/posts`, {
-      headers: this._headers,
-      method: "GET",
-    }).then(onResponse);
+    return fetch(`${this._url}/v2/group-9/posts`, this._headers()).then(
+      onResponse
+    );
   }
   getPostById(id) {
-    return fetch(`${this._baseUrl}/v2/group-9/posts/${id}`, {
-      headers: this._headers,
-      method: "GET",
-    }).then(onResponse);
+    return fetch(`${this._url}/v2/group-9/posts/${id}`, this._headers()).then(
+      onResponse
+    );
   }
   getCommentsByPostId(postId) {
-    return fetch(`${this._baseUrl}/v2/group-9/posts/comments/${postId}`, {
-      headers: this._headers,
-      method: "GET",
-    }).then(onResponse);
+    return fetch(
+      `${this._url}/v2/group-9/posts/comments/${postId}`,
+      this._headers()
+    ).then(onResponse);
   }
   addComment(postId, text) {
-    return fetch(`${this._baseUrl}/v2/group-9/posts/comments/${postId}`, {
-      headers: this._headers,
+    return fetch(`${this._url}/v2/group-9/posts/comments/${postId}`, {
+      ...this._headers(),
       method: "POST",
       body: JSON.stringify({ text }),
     }).then(onResponse);
   }
-  deleteComment(postId, commentId){
-    return fetch(`${this._baseUrl}/v2/group-9/posts/comments/${postId}/${commentId}`,{
-      headers: this._headers,
-      method: "DELETE",
-    }).then(onResponse);
+  deleteComment(postId, commentId) {
+    return fetch(
+      `${this._url}/v2/group-9/posts/comments/${postId}/${commentId}`,
+      {
+        ...this._headers(),
+        method: "DELETE",
+      }
+    ).then(onResponse);
   }
   getAuthUser() {
-    return fetch(`${this._baseUrl}/v2/group-9/users/me`, {
-      headers: this._headers,
-      method: "GET",
+    return fetch(`${this._url}/v2/group-9/users/me`, this._headers()).then(
+      onResponse
+    );
+  }
+  editUserInfo(data) {
+    return fetch(`${this._url}/v2/group-9/users/me`, {
+      ...this._headers(),
+      method: "PATCH",
+      body: JSON.stringify(data),
+    }).then(onResponse);
+  }
+  editUserAvatar(data) {
+    return fetch(`${this._url}/v2/group-9/users/me/avatar`, {
+      ...this._headers(),
+      method: "PATCH",
+      body: JSON.stringify(data),
+    }).then(onResponse);
+  }
+  createPost(data) {
+    return fetch(`${this._url}/v2/group-9/posts`, {
+      ...this._headers(),
+      method: "POST",
+      body: JSON.stringify(data),
     }).then(onResponse);
   }
   editPost(postId, data) {
-    return fetch(`${this._baseUrl}/v2/group-9/posts/${postId}`, {
-      headers: this._headers,
+    return fetch(`${this._url}/v2/group-9/posts/${postId}`, {
+      ...this._headers(),
       method: "PATCH",
-      body: JSON.stringify({ data }),
+      body: JSON.stringify(data),
     }).then(onResponse);
   }
   deletePost(postId) {
-    return fetch(`${this._baseUrl}/v2/group-9/posts/${postId}`, {
-      headers: this._headers,
+    return fetch(`${this._url}/v2/group-9/posts/${postId}`, {
+      ...this._headers(),
       method: "DELETE",
     }).then(onResponse);
   }
   changeLike(postId, isLiked) {
-    return fetch(`${this._baseUrl}/v2/group-9/posts/likes/${postId}`, {
-      headers: this._headers,
-      method: isLiked ? 'DELETE' : 'PUT',
+    return fetch(`${this._url}/v2/group-9/posts/likes/${postId}`, {
+      ...this._headers(),
+      method: isLiked ? "DELETE" : "PUT",
     }).then(onResponse);
   }
 }
+const headers = () => {
+  return {
+    headers: {
+      "content-type": "application/json",
+      Authorization: localStorage.getItem("token"),
+    },
+  };
+};
+const config = {
+  url: "https://api.react-learning.ru",
+  headers: headers,
+};
+
 export const api = new Api(config);
