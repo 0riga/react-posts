@@ -1,18 +1,20 @@
 import s from "./index.module.css";
 import logo from "../../assets/logo.webp";
 import { Link, useNavigate } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { UserContext } from "../../context/userContext";
 import { RxExit, RxInfoCircled } from "react-icons/rx";
 
-export const Header = ({ menuChange, showMenu }) => {
+export const Header = () => {
   const { currentUser, setAuth } = useContext(UserContext);
+  const [showMenu, setShowMenu] = useState(false);
   const navigate = useNavigate();
   const signOut = () => {
     localStorage.removeItem("token");
     setAuth(false);
     navigate("signin");
   };
+  const menuChange = () => setShowMenu(!showMenu);
   return (
     <div className={s.header}>
       <div className={s.header__content}>

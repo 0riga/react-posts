@@ -154,7 +154,6 @@ function App() {
       handleGetPosts();
     });
   };
-  const menuChange = () => setShowMenu(!showMenu);
 
   const handleCheckboxChange = (checkboxName) => {
     const newState = !checkboxStates[checkboxName];
@@ -226,9 +225,7 @@ function App() {
             <>
               {location.pathname !== "/signin" &&
                 location.pathname !== "/signup" &&
-                location.pathname !== "/reset" && (
-                  <Header menuChange={menuChange} showMenu={showMenu} />
-                )}
+                location.pathname !== "/reset" && <Header />}
               <main>
                 <div className="main__container">
                   <div className="main__container__posts">
