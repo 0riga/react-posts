@@ -3,15 +3,6 @@ main {
 	margin: 0 auto;
 }
 
-.main__container__top {
-	width: 100%;
-	min-height: 100px;
-	background-color: rgb(45 50 90);
-	margin: 20px 0;
-	border-radius: 5px;
-	box-shadow: 0 2px 4px 0 rgb(0 0 0 / 40%);
-}
-
 .postList {
 	width: 100%;
 	display: grid;
