@@ -20,6 +20,7 @@ const EditPost = ({
   setModalForPost,
   handleFnPost,
   title,
+  btnname,
 }) => {
   const {
     register,
@@ -96,7 +97,7 @@ const EditPost = ({
           <label>Содержание</label>
         </div>
         <div className="form__error">{errors?.text?.message}</div>
-        <Button type="submit">Сохранить</Button>
+        <Button type="submit">{btnname}</Button>
       </form>
     </Modal>
   );

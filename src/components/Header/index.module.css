@@ -25,7 +25,6 @@
   align-items: center;
   justify-content: center;
   height: 100%;
-  /* gap: 15px; */
 }
 .header__content__user__info {
   display: grid;

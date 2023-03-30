@@ -54,6 +54,7 @@ const Filter = () => {
       </Button>
 
       <EditPost
+        btnname="Создать"
         title="Создание поста"
         modalForPost={modalCreatePost}
         setModalForPost={setModalCreatePost}

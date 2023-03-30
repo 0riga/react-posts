@@ -52,7 +52,7 @@ export const Header = () => {
                   <div
                     className={s.header__menu__exit}
                     onClick={() => {
-                      // menuChange();
+                      menuChange();
                       signOut();
                     }}
                   >
