@@ -118,7 +118,7 @@ const ResetPswd = () => {
               <label>Токен</label>
             </div>
             <div className="form__error">
-              {errors?.group?.message || authError}
+              {errors?.token?.message || authError}
             </div>
           </>
         )}

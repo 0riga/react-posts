@@ -32,7 +32,6 @@ function App() {
   const [actualIdPost, setActualIdPost] = useState();
   const [actualInfoPost, setActualInfoPost] = useState({});
   const [comments, setComments] = useState([]);
-  const [showMenu, setShowMenu] = useState(false);
   const [loading, setLoading] = useState(false);
   const [auth, setAuth] = useState();
   const [authError, setAuthError] = useState();
@@ -166,7 +165,7 @@ function App() {
 
   useEffect(() => {
     setLoading(true);
-    !!auth &&
+    auth &&
       Promise.all([api.getAuthUser(), api.getAllPosts()])
         .then(([userData, data]) => {
           setCurrentUser(userData);
@@ -248,6 +247,7 @@ function App() {
                       activeModal={activeModal}
                     />
                     <EditPost
+                      btnname="Сохранить"
                       title="Редактирование поста"
                       actualInfoPost={actualInfoPost}
                       modalForPost={modalEditPost}
