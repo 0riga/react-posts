@@ -99,7 +99,7 @@ const AboutMe = () => {
                 },
                 minLength: {
                   value: 2,
-                  message: "Минимум 2 символа",
+                  message: VALIDATE_CONFIG.minLength,
                 },
               })}
             />
@@ -129,7 +129,7 @@ const AboutMe = () => {
                 },
                 minLength: {
                   value: 2,
-                  message: "Минимум 2 символа",
+                  message: VALIDATE_CONFIG.minLength,
                 },
               })}
             />
