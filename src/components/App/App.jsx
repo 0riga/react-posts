@@ -33,7 +33,7 @@ function App() {
   const [actualInfoPost, setActualInfoPost] = useState({});
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [auth, setAuth] = useState();
+  const [auth, setAuth] = useState(false);
   const [authError, setAuthError] = useState();
   const [sortBy, setSortBy] = useState("new");
   const isLiked = (likes, userId) => likes?.some((id) => id === userId);
@@ -46,7 +46,6 @@ function App() {
       setPosts(data);
     });
   };
-
   const filteredPosts = posts
     .filter((post) =>
       checkboxStates.showLikedPosts
@@ -113,10 +112,11 @@ function App() {
       .catch((err) => console.error(err));
   };
   const handleEditPost = (data) => {
-    for (let prop in data) {
-      if (data.hasOwnProperty(prop) && data[prop] === "") {
-        delete data[prop];
-      }
+    if (!data.image || data.image === " ") {
+      data = {
+        ...data,
+        image: "https://react-learning.ru/image-compressed/default-image.jpg",
+      };
     }
     api
       .editPost(actualInfoPost._id, data)
@@ -128,10 +128,8 @@ function App() {
   };
 
   const handleCreatePost = (data) => {
-    for (let prop in data) {
-      if (data.hasOwnProperty(prop) && data[prop] === "") {
-        delete data[prop];
-      }
+    if (!data.image || data.image === " ") {
+      delete data.image;
     }
     api
       .createPost(data)
@@ -141,6 +139,7 @@ function App() {
       .catch((err) => console.error(err))
       .finally(setModalCreatePost(false));
   };
+  // };
   const handleEditUserinfo = (data) => {
     api.editUserInfo(data).then((res) => {
       setCurrentUser(res);
@@ -161,9 +160,10 @@ function App() {
 
   useEffect(() => {
     isAuth();
-  }, [auth]);
+  }, []);
 
   useEffect(() => {
+    auth ? navigate("/") : navigate("/signin");
     setLoading(true);
     auth &&
       Promise.all([api.getAuthUser(), api.getAllPosts()])
@@ -173,7 +173,6 @@ function App() {
         })
         .finally(() => setLoading(false));
     !auth && setLoading(false);
-    auth === false && navigate("/signin");
   }, [auth]);
 
   const postProvider = {
@@ -234,11 +233,11 @@ function App() {
                         element={<PostsList posts={filteredPosts} />}
                       ></Route>
                       <Route path="/posts/:postid" element={<DetailedPost />} />
-                      <Route path="*" element={<NotFound />} />
                       <Route path="/signup" element={<SignUp />} />
                       <Route path="/signin" element={<SignIn />} />
                       <Route path="/reset" element={<ResetPswd />} />
                       <Route path="/aboutme" element={<AboutMe />} />
+                      <Route path="*" element={<NotFound />} />
                     </Routes>
                     <Confirmation
                       handleDeletePost={handleDeletePost}

@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import err from "../../assets/err.webp";
 import { useForm } from "react-hook-form";
 import ReactTextareaAutosize from "react-textarea-autosize";
-import { VALIDATE_CONFIG } from "../../constants/constants";
+import { VALIDATE_CONFIG, URL_REGEXP } from "../../constants/constants";
 import useDebounce from "../../utils/debaounce";
 import { Button } from "../Button/Button";
 import { Modal } from "../Modal/modal";
@@ -54,9 +54,15 @@ const EditPost = ({
             <IoImageOutline />
           </i>
           <input
+            placeholder=" "
             defaultValue={actualInfoPost?.image}
             type="text"
-            {...register("image")}
+            {...register("image", {
+              pattern: {
+                value: URL_REGEXP,
+                message: VALIDATE_CONFIG.url,
+              },
+            })}
           />
           <label>Ссылка на изображение</label>
         </div>
@@ -66,11 +72,16 @@ const EditPost = ({
             <IoPricetagOutline />
           </i>
           <input
+            placeholder=" "
             defaultValue={actualInfoPost?.title}
             {...register("title", {
               required: {
                 value: true,
                 message: VALIDATE_CONFIG.requiredMessage,
+              },
+              minLength: {
+                value: 2,
+                message: VALIDATE_CONFIG.minLength,
               },
             })}
             type="text"
@@ -84,6 +95,7 @@ const EditPost = ({
             <IoReaderOutline />
           </i>
           <ReactTextareaAutosize
+            placeholder=" "
             maxRows={5}
             name="text"
             {...register("text", {
